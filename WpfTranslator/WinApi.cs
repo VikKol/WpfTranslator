@@ -5,7 +5,7 @@ namespace WpfTranslator
 {
     class WinApi
     {
-        public const int AppHotKeyId = 1;
+        public const int AppHotKeyId = 999;
         const int VK_Q = 81;
         const int MOD_ALT = 0x0001;
 

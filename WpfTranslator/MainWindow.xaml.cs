@@ -17,16 +17,18 @@ namespace WpfTranslator
         public MainWindow()
         {
             InitializeComponent();
-            translator = new Translator();
+            translator = new Translator(new AdmStsClient(new AdmStsSettings("","","","")));
             wndHandle = new WindowInteropHelper(this).Handle;
             WinApi.RegisterAppHotKey(wndHandle);
             ComponentDispatcher.ThreadPreprocessMessage += ComponentDispatcher_ThreadPreprocessMessage;
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) => MessageBox.Show(args.ExceptionObject.ToString());
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            WinApi.RegisterAppHotKey(wndHandle);
+            WinApi.UnregisterAppHotKey(wndHandle);
+            ComponentDispatcher.ThreadPreprocessMessage -= ComponentDispatcher_ThreadPreprocessMessage;
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
             base.OnClosing(e);
         }
 
@@ -34,13 +36,30 @@ namespace WpfTranslator
         {
             if (!handled && msg.message == WmHotKey && WinApi.AppHotKeyId == (int)msg.wParam)
             {
+                MessageBox.Show("Ok");
                 HandleTranslation();
                 handled = true;
             }
         }
 
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.ExceptionObject.ToString());
+        }
+
         private void HandleTranslation()
         {
+        }
+
+        private async void translateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var text = translateTxt.Text;
+            translatedTxt.Text = await translator.Translate(text, Languages.En, Languages.Uk);
+        }
+
+        private void pronounceBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

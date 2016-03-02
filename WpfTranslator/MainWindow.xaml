@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTranslator"
         mc:Ignorable="d"
-        Title="Translator" Height="350" Width="525">
+        Title="Translator" Height="335.127" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="115"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="translateTxt" Grid.Row="0" Margin="5,0,5,0" TextWrapping="Wrap"/>
+        <StackPanel Grid.Row="1"  Width="500" Orientation="Horizontal">
+            <Button x:Name="translateBtn" Content="Translate" Click="translateBtn_Click" Margin="5,0,0,0" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75"/>
+            <Button x:Name="pronounceBtn" Content="Pronounce" Height="20" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75" Click="pronounceBtn_Click"/>
+            <Label x:Name="label" Content="From:" Margin="170,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <ComboBox x:Name="fromLang" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" />
+            <Label x:Name="label1" Content="To:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <ComboBox x:Name="toLang" Height="20" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" />
+        </StackPanel>
+        <TextBox x:Name="translatedTxt" Grid.Row="2" Margin="5,0,5,5" TextWrapping="Wrap"/>
     </Grid>
 </Window>
