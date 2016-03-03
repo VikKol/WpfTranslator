@@ -52,7 +52,7 @@ namespace WpfTranslator
         private void Init()
         {
             trayMenu = new ContextMenu();
-            trayMenu.MenuItems.Add("StartWithWindows", new[]
+            trayMenu.MenuItems.Add("Start with Windows", new[]
             {
                 new MenuItem("Yes", (e, s) => WinApi.AddToStartup()),
                 new MenuItem("No", (e, s) => WinApi.DeleteFromStartup())
