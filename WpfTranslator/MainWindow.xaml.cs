@@ -3,12 +3,10 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
 using System.Media;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using Microsoft.Win32;
 using Clipboard = System.Windows.Clipboard;
 using MessageBox = System.Windows.MessageBox;
 using WindowsInput;
@@ -56,8 +54,8 @@ namespace WpfTranslator
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("StartWithWindows", new[]
             {
-                new MenuItem("Yes", OnStartupYes),
-                new MenuItem("No", OnStartupNo)
+                new MenuItem("Yes", (e, s) => WinApi.AddToStartup()),
+                new MenuItem("No", (e, s) => WinApi.DeleteFromStartup())
             });
             trayMenu.MenuItems.Add("Exit", OnExit);
             trayIcon = new NotifyIcon
@@ -185,19 +183,5 @@ namespace WpfTranslator
             shouldClose = true;
             this.Close();
         }
-
-        private void OnStartupYes(object sender, EventArgs e)
-        {
-            using (var rk = OpenRegistry())
-                rk?.SetValue(Properties.Resources.AppName, Assembly.GetExecutingAssembly().Location);
-        }
-
-        private void OnStartupNo(object sender, EventArgs e)
-        {
-            using (var rk = OpenRegistry())
-                rk?.DeleteValue(Properties.Resources.AppName, false);
-        }
-
-        private RegistryKey OpenRegistry() => Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
     }
 }

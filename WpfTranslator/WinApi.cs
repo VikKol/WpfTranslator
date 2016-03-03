@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Reflection;
+using Microsoft.Win32;
 
 namespace WpfTranslator
 {
@@ -34,5 +36,23 @@ namespace WpfTranslator
             UnregisterHotKey(hWnd, TranslateHotKeyId);
             UnregisterHotKey(hWnd, PronounceHotKeyId);
         }
+
+        public static void AddToStartup()
+        {
+            using (var rk = OpenRegistry())
+            {
+                rk?.SetValue(Properties.Resources.AppName, Assembly.GetExecutingAssembly().Location);
+            }
+        }
+
+        public static void DeleteFromStartup()
+        {
+            using (var rk = OpenRegistry())
+            {
+                rk?.DeleteValue(Properties.Resources.AppName, false);
+            }
+        }
+
+        private static RegistryKey OpenRegistry() => Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
     }
 }
