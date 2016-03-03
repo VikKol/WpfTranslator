@@ -12,7 +12,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="translateTxt" Grid.Row="0" Margin="5,0,5,0" TextWrapping="Wrap"/>
+        <TextBox x:Name="translateTxt" Grid.Row="0" Margin="5,5,5,0" TextWrapping="Wrap"/>
         <StackPanel Grid.Row="1"  Width="500" Orientation="Horizontal">
             <Button x:Name="translateBtn" Content="Translate" Click="translateBtn_Click" Margin="5,0,0,0" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75"/>
             <Button x:Name="pronounceBtn" Content="Pronounce" Height="20" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75" Click="pronounceBtn_Click"/>

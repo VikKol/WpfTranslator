@@ -20,9 +20,10 @@ namespace WpfTranslator
 
         public string FormatStsRequestBody()
         {
-            return "grant_type=client_credentials&scope={scope}" +
+            return "grant_type=client_credentials" +
                 $"&client_id={Uri.EscapeDataString(clientId)}" +
-                $"&client_secret={Uri.EscapeDataString(clientSecret)}";
+                $"&client_secret={Uri.EscapeDataString(clientSecret)}" +
+                $"&scope={scope}";
         }
     }
 }

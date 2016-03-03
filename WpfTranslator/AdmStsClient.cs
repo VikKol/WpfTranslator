@@ -7,12 +7,10 @@ namespace WpfTranslator
 {
     class AdmStsClient
     {
-        //scope: http://api.microsofttranslator.com    
-        //"https://datamarket.accesscontrol.windows.net/v2/OAuth2-13"
         private readonly string azureDatamarketAccessUri;
         private readonly string requestBody;
 
-        public AdmAccessToken AccessToken { get; set; }
+        public AdmAccessToken AccessToken { get; private set; }
 
         public AdmStsClient(AdmStsSettings settings)
         {
@@ -39,7 +37,7 @@ namespace WpfTranslator
             }
         }
 
-        private async void RefreshAccessToken()
+        public async Task RefreshAccessToken()
         {
             this.AccessToken = await RequestToken();
         }
