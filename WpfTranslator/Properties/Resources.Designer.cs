@@ -68,5 +68,15 @@ namespace WpfTranslator.Properties {
                 return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon WpfTranslator {
+            get {
+                object obj = ResourceManager.GetObject("WpfTranslator", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
