@@ -18,6 +18,7 @@ namespace WpfTranslator
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int DelayMs = 1000;
         const int WmHotKey = 0x0312;
 
         private bool shouldClose = false;
@@ -99,7 +100,7 @@ namespace WpfTranslator
 
         private async void DoTranslation()
         {
-            KeystrokeCtrlC(600);
+            KeystrokeCtrlC(DelayMs);
             this.Show();
             this.Activate();
 
@@ -113,7 +114,7 @@ namespace WpfTranslator
 
         private async void Speak()
         {
-            KeystrokeCtrlC(800);
+            KeystrokeCtrlC(DelayMs);
 
             if (Clipboard.ContainsText())
             {
