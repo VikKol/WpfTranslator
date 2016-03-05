@@ -18,7 +18,7 @@ namespace WpfTranslator
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int DelayMs = 1000;
+        const int DelayMs = 200;
         const int WmHotKey = 0x0312;
 
         private bool shouldClose = false;
@@ -129,6 +129,11 @@ namespace WpfTranslator
 
         private void KeystrokeCtrlC(int delayMs)
         {
+            simulator.Keyboard.Sleep(delayMs);
+            simulator.Keyboard.ModifiedKeyStroke(
+                WindowsInput.Native.VirtualKeyCode.CONTROL,
+                WindowsInput.Native.VirtualKeyCode.VK_C);
+
             simulator.Keyboard.Sleep(delayMs);
             simulator.Keyboard.ModifiedKeyStroke(
                 WindowsInput.Native.VirtualKeyCode.CONTROL,

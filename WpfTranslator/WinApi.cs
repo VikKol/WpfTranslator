@@ -27,8 +27,8 @@ namespace WpfTranslator
 
         public static void RegisterAppHotKey(IntPtr hWnd)
         {
-            RegisterHotKey(hWnd, TranslateHotKeyId, MOD_SHIFT, (int)Keys.Q);
-            RegisterHotKey(hWnd, PronounceHotKeyId, MOD_SHIFT, (int)Keys.W);
+            RegisterHotKey(hWnd, TranslateHotKeyId, MOD_ALT | MOD_SHIFT, (int)Keys.Q);
+            RegisterHotKey(hWnd, PronounceHotKeyId, MOD_ALT | MOD_SHIFT, (int)Keys.W);
         }
 
         public static void UnregisterAppHotKey(IntPtr hWnd)
