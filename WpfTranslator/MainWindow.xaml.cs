@@ -164,6 +164,14 @@ namespace WpfTranslator
             }
         }
 
+        private void translateTxt_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                translateBtn_Click(this, null);
+            }
+        }
+
         private async Task<T> SafeExec<T>(Func<Task<T>> func)
         {
             try
