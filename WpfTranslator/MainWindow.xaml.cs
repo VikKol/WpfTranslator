@@ -6,6 +6,7 @@ using System.Media;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Interop;
 using Clipboard = System.Windows.Clipboard;
 using MessageBox = System.Windows.MessageBox;
@@ -152,6 +153,14 @@ namespace WpfTranslator
             using (SoundPlayer player = new SoundPlayer(stream))
             {
                 player.Play();
+            }
+        }
+
+        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (this.IsActive && e.Key == Key.Escape)
+            {
+                this.Hide();
             }
         }
 
