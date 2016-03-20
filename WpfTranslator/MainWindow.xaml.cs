@@ -160,6 +160,8 @@ namespace WpfTranslator
         {
             if (this.IsActive && e.Key == Key.Escape)
             {
+                this.translateTxt.Text = "";
+                this.translatedTxt.Text = "";
                 this.Hide();
             }
         }
@@ -193,6 +195,9 @@ namespace WpfTranslator
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = !shouldClose;
+
+            this.translateTxt.Text = "";
+            this.translatedTxt.Text = "";
             this.Hide();
         }
 

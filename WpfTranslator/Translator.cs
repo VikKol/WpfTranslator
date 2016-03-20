@@ -44,7 +44,7 @@ namespace WpfTranslator
 
         private async Task<HttpContent> PerformRequest(HttpClient client, Func<HttpClient, Task<HttpResponseMessage>> request)
         {
-            var token = admStsClient.AccessToken.AccessToken;
+            var token = (admStsClient.AccessToken ?? await admStsClient.RefreshAccessToken()).AccessToken;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await request(client);

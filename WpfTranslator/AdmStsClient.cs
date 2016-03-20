@@ -16,7 +16,6 @@ namespace WpfTranslator
         {
             this.azureDatamarketAccessUri = settings.AzureDatamarketAccessUri;
             this.requestBody = settings.FormatStsRequestBody();
-            RefreshAccessToken();
         }
 
         public async Task<AdmAccessToken> RequestToken()
@@ -37,9 +36,9 @@ namespace WpfTranslator
             }
         }
 
-        public async Task RefreshAccessToken()
+        public async Task<AdmAccessToken> RefreshAccessToken()
         {
-            this.AccessToken = await RequestToken();
+            return this.AccessToken = await RequestToken();
         }
     }
 }
