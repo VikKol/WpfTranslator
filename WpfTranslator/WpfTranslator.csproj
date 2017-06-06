@@ -71,7 +71,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AdmStsSettings.cs" />
+    <Compile Include="ComboBoxItemTemplateSelector.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SpellCheckResponse.cs" />
+    <Compile Include="SpellCheckService.cs" />
+    <Compile Include="SpellCheckWindow.xaml.cs">
+      <DependentUpon>SpellCheckWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StsSettings.cs" />
     <Compile Include="TranslationsResponse.cs" />
     <Compile Include="Translator.cs" />
     <Compile Include="WinApi.cs" />
@@ -80,17 +89,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AdmAccessToken.cs" />
-    <Compile Include="AdmStsClient.cs" />
+    <Compile Include="StsClient.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Languages.cs" />
+    <Compile Include="MainLanguages.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SpellCheckWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -119,10 +131,15 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WpfTranslator.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SpellCheckAPI.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

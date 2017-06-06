@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Drawing;
+using System.Linq;
 using System.Media;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,7 +31,11 @@ namespace WpfTranslator
 
         private readonly IntPtr wndHandle;
         private readonly Translator translator;
+        private readonly SpellCheckService spellCheckService;
         private readonly InputSimulator simulator = new InputSimulator();
+
+        private string fromLangCode => fromLang.SelectedValue == null ? MainLanguages.DefaultFromLanguage.Code : (fromLang.SelectedValue as Language)?.Code;
+        private string toLangCode => toLang.SelectedValue == null ? MainLanguages.DefaultToLanguage.Code : (toLang.SelectedValue as Language)?.Code;
 
         public MainWindow()
         {
@@ -36,15 +43,16 @@ namespace WpfTranslator
             this.Hide();
             this.Init();
 
+            //var windo = new SpellCheckWindow();
+            //windo.Show();
+            //windo.Activate();
+
             wndHandle = new WindowInteropHelper(this).Handle;
             translator = new Translator(
                 ConfigurationManager.AppSettings["MsTransaltorApiUri"],
-                new AdmStsClient(
-                    new AdmStsSettings(
-                        ConfigurationManager.AppSettings["AzureDatamarketAccessUri"],
-                        ConfigurationManager.AppSettings["ClientId"],
-                        ConfigurationManager.AppSettings["ClientSecret"],
-                        ConfigurationManager.AppSettings["Scope"])));
+                new StsClient(new StsSettings(ConfigurationManager.AppSettings["StsUri"], ConfigurationManager.AppSettings["SubscribtionKey"])));
+            //spellCheckService = new SpellCheckService(ConfigurationManager.AppSettings["MashapeKey"]);
+            DataContext = new MainViewModel(translator);
 
             WinApi.RegisterAppHotKey(wndHandle);
             ComponentDispatcher.ThreadPreprocessMessage += ComponentDispatcher_ThreadPreprocessMessage;
@@ -54,6 +62,7 @@ namespace WpfTranslator
         private void Init()
         {
             trayMenu = new ContextMenu();
+            trayMenu.MenuItems.Add("Show", OnShow);
             trayMenu.MenuItems.Add("Start with Windows", new[]
             {
                 new MenuItem("Yes", (e, s) => WinApi.AddToStartup()),
@@ -67,14 +76,6 @@ namespace WpfTranslator
                 ContextMenu = trayMenu,
                 Visible = true
             };
-
-            foreach (var it in Enum.GetValues(typeof(Languages)))
-            {
-                this.fromLang.Items.Add(((Languages) it).ToString());
-                this.toLang.Items.Add(((Languages) it).ToString());
-            }
-            this.fromLang.SelectedIndex = (int)Languages.en;
-            this.toLang.SelectedIndex = (int)Languages.ru;
         }
 
         private void ComponentDispatcher_ThreadPreprocessMessage(ref MSG msg, ref bool handled)
@@ -109,7 +110,7 @@ namespace WpfTranslator
             {
                 var text = Clipboard.GetText();
                 translateTxt.Text = text;
-                translatedTxt.Text = await SafeExec(() => translator.Translate(text, fromLang.Text, toLang.Text));
+                translatedTxt.Text = await SafeExec(() => translator.TranslateAsync(text, fromLangCode, toLangCode));
             }
         }
 
@@ -120,7 +121,7 @@ namespace WpfTranslator
             if (Clipboard.ContainsText())
             {
                 var text = Clipboard.GetText();
-                var stream = await SafeExec(() => translator.Pronounce(text, fromLang.Text));
+                var stream = await SafeExec(() => translator.PronounceAsync(text, fromLangCode));
                 using (SoundPlayer player = new SoundPlayer(stream))
                 {
                     player.Play();
@@ -144,16 +145,23 @@ namespace WpfTranslator
         private async void translateBtn_Click(object sender, RoutedEventArgs e)
         {
             var text = translateTxt.Text;
-            translatedTxt.Text = await SafeExec(() => translator.Translate(text, fromLang.Text, toLang.Text));
+            translatedTxt.Text = await SafeExec(() => translator.TranslateAsync(text, fromLangCode, toLangCode));
         }
 
         private async void pronounceBtn_Click(object sender, RoutedEventArgs e)
         {
-            var stream = await SafeExec(() => translator.Pronounce(translateTxt.Text, fromLang.Text));
+            var stream = await SafeExec(() => translator.PronounceAsync(translateTxt.Text, fromLangCode));
             using (SoundPlayer player = new SoundPlayer(stream))
             {
                 player.Play();
             }
+        }
+
+        private void switchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            object tmp = this.fromLang.SelectedItem;
+            this.fromLang.SelectedItem = this.toLang.SelectedItem;
+            this.toLang.SelectedItem = tmp;
         }
 
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -186,7 +194,7 @@ namespace WpfTranslator
                 return default(T);
             }
         }
-
+        
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             MessageBox.Show(e.ExceptionObject.ToString());
@@ -199,6 +207,12 @@ namespace WpfTranslator
             this.translateTxt.Text = "";
             this.translatedTxt.Text = "";
             this.Hide();
+        }
+
+        private void OnShow(object sender, EventArgs e)
+        {
+            this.Show();
+            this.Activate();
         }
 
         private void OnExit(object sender, EventArgs e)

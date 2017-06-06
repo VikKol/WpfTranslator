@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:WpfTranslator"
         mc:Ignorable="d"
         Title="Translator" Height="335.127" Width="525" KeyUp="Window_KeyUp">
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="115"></RowDefinition>
@@ -13,13 +15,44 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBox x:Name="translateTxt" Grid.Row="0" Margin="5,5,5,0" TextWrapping="Wrap" KeyUp="translateTxt_KeyUp"/>
-        <StackPanel Grid.Row="1"  Width="500" Orientation="Horizontal">
-            <Button x:Name="translateBtn" Content="Translate" Click="translateBtn_Click" Margin="5,0,0,0" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="translateBtn" Content="Translate" Click="translateBtn_Click" Margin="10,0,0,0" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75"/>
             <Button x:Name="pronounceBtn" Content="Pronounce" Height="20" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75" Click="pronounceBtn_Click"/>
-            <Label x:Name="label" Content="From:" Margin="170,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <ComboBox x:Name="fromLang" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" />
-            <Label x:Name="label1" Content="To:" VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <ComboBox x:Name="toLang" Height="20" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" />
+            <ComboBox x:Name="fromLang" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="50" Margin="200,5,0,5"
+                      ItemsSource="{Binding Path=FromLanguages}" 
+                      SelectedValue="{Binding Path=SelectedFromLanguage, Mode=TwoWay}"
+                      ItemTemplateSelector="{DynamicResource itemTemplateSelector}">
+                <ComboBox.Resources>
+                    <DataTemplate x:Key="selectedTemplate">
+                        <TextBlock Text="{Binding Path=Code}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="dropDownTemplate">
+                        <TextBlock Text="{Binding Path=DisplayName}"/>
+                    </DataTemplate>
+                    <local:ComboBoxItemTemplateSelector 
+                        x:Key="itemTemplateSelector" 
+                        SelectedTemplate="{StaticResource selectedTemplate}" 
+                        DropDownTemplate="{StaticResource dropDownTemplate}" />
+                </ComboBox.Resources>
+            </ComboBox>
+            <Button x:Name="switchBtn" Click="switchBtn_Click" Margin="5" Content="&lt;-&gt;" />
+            <ComboBox x:Name="toLang" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="20" Margin="0,0,0,0"
+                      ItemsSource="{Binding Path=ToLanguages}" 
+                      SelectedValue="{Binding Path=SelectedToLanguage, Mode=TwoWay}"
+                      ItemTemplateSelector="{DynamicResource itemTemplateSelector}">
+                <ComboBox.Resources>
+                    <DataTemplate x:Key="selectedTemplate">
+                        <TextBlock Text="{Binding Path=Code}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="dropDownTemplate">
+                        <TextBlock Text="{Binding Path=DisplayName}"/>
+                    </DataTemplate>
+                    <local:ComboBoxItemTemplateSelector 
+                        x:Key="itemTemplateSelector" 
+                        SelectedTemplate="{StaticResource selectedTemplate}" 
+                        DropDownTemplate="{StaticResource dropDownTemplate}" />
+                </ComboBox.Resources>
+            </ComboBox>
         </StackPanel>
         <TextBox x:Name="translatedTxt" Grid.Row="2" Margin="5,0,5,5" TextWrapping="Wrap"/>
     </Grid>
