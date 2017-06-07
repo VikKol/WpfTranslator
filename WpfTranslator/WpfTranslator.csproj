@@ -71,35 +71,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ComboBoxItemTemplateSelector.cs" />
-    <Compile Include="Language.cs" />
-    <Compile Include="MainViewModel.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="SpellCheckResponse.cs" />
-    <Compile Include="SpellCheckService.cs" />
-    <Compile Include="SpellCheckWindow.xaml.cs">
+    <Compile Include="Common\ComboBoxItemTemplateSelector.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\KeyboardService.cs" />
+    <Compile Include="Common\Language.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Translation\TranslatorViewModel.cs" />
+    <Compile Include="SpellCheck\SpellCheckResponse.cs" />
+    <Compile Include="SpellCheck\SpellCheckService.cs" />
+    <Compile Include="SpellCheck\SpellCheckViewModel.cs" />
+    <Compile Include="SpellCheck\SpellCheckWindow.xaml.cs">
       <DependentUpon>SpellCheckWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StsSettings.cs" />
-    <Compile Include="TranslationsResponse.cs" />
-    <Compile Include="Translator.cs" />
-    <Compile Include="WinApi.cs" />
-    <Compile Include="WpfTranslatorException.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Translation\StsSettings.cs" />
+    <Compile Include="Translation\TranslationsResponse.cs" />
+    <Compile Include="Translation\Translator.cs" />
+    <Compile Include="Common\WinApi.cs" />
+    <Compile Include="Common\WpfTranslatorException.cs" />
+    <Page Include="Translation\TranslatorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="StsClient.cs" />
+    <Compile Include="Translation\StsClient.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainLanguages.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Translation\TranslatorWindow.xaml.cs">
+      <DependentUpon>TranslatorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SpellCheckWindow.xaml">
+    <Page Include="SpellCheck\SpellCheckWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,9 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WpfTranslator.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="SpellCheckAPI.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
