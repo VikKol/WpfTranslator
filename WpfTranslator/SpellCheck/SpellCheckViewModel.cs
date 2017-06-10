@@ -1,43 +1,40 @@
 ﻿using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace WpfTranslator
 {
     public class SpellCheckViewModel : INotifyPropertyChanged
     {
-        private SpellCheckService spellCheckService;
-
-        public SpellCheckViewModel(SpellCheckService spellCheckService)
+        private string _englishText;
+        public string EnglishText
         {
-            this.spellCheckService = spellCheckService;
-        }
-
-        private string _inputText;
-        public string InputText
-        {
-            get => _inputText;
+            get => _englishText;
             set
             {
-                _inputText = value;
-                OnPropertyChanged(nameof(InputText));
+                _englishText = value;
+                OnPropertyChanged(nameof(EnglishText));
             }
         }
 
-        private string _outputText;
-        public string OutputText
+        private string _russianText;
+        public string RussianText
         {
-            get => _outputText;
+            get => _russianText;
             set
             {
-                _outputText = value;
-                OnPropertyChanged(nameof(OutputText));
+                _russianText = value;
+                OnPropertyChanged(nameof(RussianText));
             }
         }
 
-        public async Task CheckSpellingAsync(string text = null)
+        private string _ukrainianText;
+        public string UkrainianText
         {
-            InputText = text ?? InputText;
-            OutputText = (await Helpers.SafeExecute(() => spellCheckService.CheckSpellingAsync(InputText)))?.Suggestion;
+            get => _ukrainianText;
+            set
+            {
+                _ukrainianText = value;
+                OnPropertyChanged(nameof(UkrainianText));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };

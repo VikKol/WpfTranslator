@@ -78,8 +78,6 @@
     <Compile Include="Common\Language.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Translation\TranslatorViewModel.cs" />
-    <Compile Include="SpellCheck\SpellCheckResponse.cs" />
-    <Compile Include="SpellCheck\SpellCheckService.cs" />
     <Compile Include="SpellCheck\SpellCheckViewModel.cs" />
     <Compile Include="SpellCheck\SpellCheckWindow.xaml.cs">
       <DependentUpon>SpellCheckWindow.xaml</DependentUpon>

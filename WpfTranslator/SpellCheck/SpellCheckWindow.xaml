@@ -5,13 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTranslator"
         mc:Ignorable="d"
-        Title="Spell Checker" Height="200" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" KeyUp="Window_KeyUp">
+        Title="Spell Checker" Height="300" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" KeyUp="Window_KeyUp">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"></RowDefinition>
-            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition Height="0.33*"></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition Height="0.33*"></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition Height="0.33*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox x:Name="input" Text="{Binding Path=InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" KeyUp="input_KeyUp"/>
-        <TextBox x:Name="result" Text="{Binding Path=OutputText}" Grid.Row="1"></TextBox>
+        <StatusBar Grid.Row="0" HorizontalAlignment="Stretch">
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock FontSize="12">English</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <TextBox x:Name="enSpellCheck" Text="{Binding EnglishText}" SpellCheck.IsEnabled="True" xml:lang="en" Grid.Row="1" />
+        <StatusBar Grid.Row="2" HorizontalContentAlignment="Right">
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock FontSize="12">Russian</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <TextBox x:Name="ruSpellCheck" Text="{Binding RussianText}" SpellCheck.IsEnabled="True" xml:lang="ru" Grid.Row="3" />
+        <StatusBar Grid.Row="4" HorizontalContentAlignment="Right">
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock FontSize="12">Ukrainian</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <TextBox x:Name="ukSpellCheck" Text="{Binding UkrainianText}" SpellCheck.IsEnabled="True" xml:lang="uk" Grid.Row="5" />
     </Grid>
 </Window>

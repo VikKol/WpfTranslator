@@ -15,7 +15,6 @@ namespace WpfTranslator
         private readonly IntPtr wndHandle;
 
         private readonly Translator translator;
-        private readonly SpellCheckService spellCheckService;
         private readonly KeyboardService keyboardService = new KeyboardService();
 
         private TranslatorWindow translatorWindow;
@@ -33,8 +32,7 @@ namespace WpfTranslator
             translatorViewModel = new TranslatorViewModel(translator);
             translatorWindow = new TranslatorWindow(translatorViewModel);
 
-            spellCheckService = new SpellCheckService(ConfigurationManager.AppSettings["MashapeKey"]);
-            spellCheckViewModel = new SpellCheckViewModel(spellCheckService);
+            spellCheckViewModel = new SpellCheckViewModel();
             spellCheckWindow = new SpellCheckWindow(spellCheckViewModel);
 
             wndHandle = new WindowInteropHelper(translatorWindow).Handle;
@@ -71,13 +69,13 @@ namespace WpfTranslator
                 {
                     case Constants.TranslateHotKeyId:
                     {
-                        DoTranslation();
+                        DoTranslationAsync();
                         handled = true;
                         break;
                     }
                     case Constants.PronounceHotKeyId:
                     {
-                        Speak();
+                        SpeakAsync();
                         handled = true;
                         break;
                     }
@@ -91,7 +89,7 @@ namespace WpfTranslator
             }
         }
 
-        private async void DoTranslation()
+        private async void DoTranslationAsync()
         {
             keyboardService.KeystrokeCtrlC(Constants.KeyPressDelayMs);
             translatorWindow.Show();
@@ -104,7 +102,7 @@ namespace WpfTranslator
             }
         }
 
-        private async void Speak()
+        private async void SpeakAsync()
         {
             keyboardService.KeystrokeCtrlC(Constants.KeyPressDelayMs);
 
@@ -115,7 +113,7 @@ namespace WpfTranslator
             }
         }
 
-        private async void CheckSpelling()
+        private void CheckSpelling()
         {
             keyboardService.KeystrokeCtrlC(Constants.KeyPressDelayMs);
             spellCheckWindow.Show();
@@ -124,7 +122,9 @@ namespace WpfTranslator
             if (Clipboard.ContainsText())
             {
                 string text = Clipboard.GetText();
-                await spellCheckViewModel.CheckSpellingAsync(text);
+                spellCheckViewModel.EnglishText = text;
+                spellCheckViewModel.RussianText = text;
+                spellCheckViewModel.UkrainianText = text;
             }
         }
 

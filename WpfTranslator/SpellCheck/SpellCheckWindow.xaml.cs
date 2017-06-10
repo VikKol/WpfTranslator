@@ -26,14 +26,6 @@ namespace WpfTranslator
             ClearAndHideWindow();
         }
 
-        private async void input_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                await viewModel.CheckSpellingAsync();
-            }
-        }
-
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (this.IsActive && e.Key == Key.Escape)
@@ -44,8 +36,9 @@ namespace WpfTranslator
 
         private void ClearAndHideWindow()
         {
-            this.viewModel.InputText = string.Empty;
-            this.viewModel.OutputText = string.Empty;
+            this.viewModel.EnglishText = string.Empty;
+            this.viewModel.RussianText = string.Empty;
+            this.viewModel.UkrainianText = string.Empty;
             this.Hide();
         }
     }
