@@ -46,11 +46,23 @@ namespace WpfTranslator
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Show Translator", OnShowTranslator);
             trayMenu.MenuItems.Add("Show SpellChecker", OnShowSpellChecker);
-            trayMenu.MenuItems.Add("Start with Windows", new[]
+
+            var yesMi = new MenuItem("Yes") { Checked = WinApi.IsAddedToStartup(), RadioCheck = true };
+            var noMi = new MenuItem("No") { Checked = !WinApi.IsAddedToStartup(), RadioCheck = true };
+            yesMi.Click += (s, e) =>
             {
-                new MenuItem("Yes", (e, s) => WinApi.AddToStartup()),
-                new MenuItem("No", (e, s) => WinApi.DeleteFromStartup())
-            });
+                WinApi.AddToStartup();
+                yesMi.Checked = true;
+                noMi.Checked = false;
+            };
+            noMi.Click += (s, e) =>
+            {
+                WinApi.AddToStartup();
+                yesMi.Checked = false;
+                noMi.Checked = true;
+            };
+
+            trayMenu.MenuItems.Add("Start with Windows", new[] { yesMi, noMi });
             trayMenu.MenuItems.Add("Exit", OnExit);
             trayIcon = new NotifyIcon
             {

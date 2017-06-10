@@ -36,6 +36,14 @@ namespace WpfTranslator
             UnregisterHotKey(hWnd, Constants.SpellCheckHotKeyId);
         }
 
+        public static bool IsAddedToStartup()
+        {
+            using (var rk = OpenRegistry())
+            {
+                return rk?.GetValue(Properties.Resources.AppName) != null;
+            }
+        }
+
         public static void AddToStartup()
         {
             using (var rk = OpenRegistry())
