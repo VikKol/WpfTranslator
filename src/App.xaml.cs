@@ -44,8 +44,8 @@ namespace WpfTranslator
         private void InitTrayMenu()
         {
             trayMenu = new ContextMenu();
-            trayMenu.MenuItems.Add("Show Translator", OnShowTranslator);
-            trayMenu.MenuItems.Add("Show SpellChecker", OnShowSpellChecker);
+            trayMenu.MenuItems.Add("Show Translator", ShowTranslator);
+            trayMenu.MenuItems.Add("Show SpellChecker", ShowSpellChecker);
 
             var yesMi = new MenuItem("Yes") { Checked = WinApi.IsAddedToStartup(), RadioCheck = true };
             var noMi = new MenuItem("No") { Checked = !WinApi.IsAddedToStartup(), RadioCheck = true };
@@ -104,8 +104,7 @@ namespace WpfTranslator
         private async void DoTranslationAsync()
         {
             keyboardService.KeystrokeCtrlC(Constants.KeyPressDelayMs);
-            translatorWindow.Show();
-            translatorWindow.Activate();
+            ShowTranslator();
 
             if (Clipboard.ContainsText())
             {
@@ -128,8 +127,7 @@ namespace WpfTranslator
         private void CheckSpelling()
         {
             keyboardService.KeystrokeCtrlC(Constants.KeyPressDelayMs);
-            spellCheckWindow.Show();
-            spellCheckWindow.Activate();
+            ShowSpellChecker();
 
             if (Clipboard.ContainsText())
             {
@@ -154,13 +152,13 @@ namespace WpfTranslator
             this.Shutdown();
         }
         
-        private void OnShowTranslator(object sender, EventArgs e)
+        private void ShowTranslator(object sender = null, EventArgs e = null)
         {
             this.translatorWindow.Show();
             this.translatorWindow.Activate();
         }
 
-        private void OnShowSpellChecker(object sender, EventArgs e)
+        private void ShowSpellChecker(object sender = null, EventArgs e = null)
         {
             this.spellCheckWindow.Show();
             this.spellCheckWindow.Activate();
